@@ -163,9 +163,13 @@ def letter_checker(letter, letters_guessed, guesses_remaining, warnings_remainin
 
     # Checking if letter is already named.
     elif letter in letters_guessed:
+        
+        # If there are no warnings left - subtract guesses
         if warnings_remaining == 0:
             guesses_remaining -= 1
             return (guesses_remaining, warnings_remaining, False, msg_nv_no_w_left)
+
+        # If there are warnings - subtract one
         warnings_remaining -=1
         return (guesses_remaining, warnings_remaining, False, msg_repeated)
 
