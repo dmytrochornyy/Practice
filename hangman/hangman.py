@@ -143,7 +143,9 @@ def letter_checker(letter, letters_guessed, guesses_remaining, warnings_remainin
     """
     # Defining different messages for different cases.
     msg_not_valid = "Oops! That is not a valid letter. You have {} warnings left: {}"
+    msg_not_valid_no_warnings = "Oops! That is not a valid letter. You have {} warnings left so you lose one guess: {}"
     msg_repeated = "Oops! You've already guessed that letter. You now have {} warnings: {}"
+    msg_repeated_no_warnings = "Oops! You've already guessed that letter. You have {} warnings left so you lose one guess: {}"
     
 
     # If letter is not in alphabet.
@@ -154,13 +156,21 @@ def letter_checker(letter, letters_guessed, guesses_remaining, warnings_remainin
             warnings_remaining -= 1 
             return (guesses_remaining, warnings_remaining, False, msg_not_valid)
 
-      # If there are not any warnings - subtract guesses.
+        # If there are not any warnings - subtract guesses.
         else:
             guesses_remaining -= 1
-            return (guesses_remaining, warnings_remaining, False, msg_not_valid)
+            return (guesses_remaining, warnings_remaining, False, msg_not_valid_no_warnings)
 
     # Checking if letter is already named.
     elif letter in letters_guessed:
+        
+        # If there are no warnings left - subtract guesses
+        if warnings_remaining == 0:
+            guesses_remaining -= 1
+            return (guesses_remaining, warnings_remaining, False, msg_repeated_no_warnings)
+
+        # If there are warnings - subtract one
+        warnings_remaining -=1
         return (guesses_remaining, warnings_remaining, False, msg_repeated)
 
     # If letter was not already named.
